@@ -18,10 +18,15 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MovieScreen(movieViewModel: MovieViewModel) {
     val movies by movieViewModel.movies.collectAsState()
+    val filteredList by movieViewModel.movies.collectAsState()
     val loading by remember(movieViewModel) { movieViewModel.loading }.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        
+    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+        SearchBar() {query->
+                if(query.isNotEmpty()) {
+                    movies.filter { it.name.contains(query) }
+                }
+        }
         LazyVerticalGrid(columns = GridCells.Fixed(3)) {
             itemsIndexed(movies) { index, movie ->
                 if (index == movies.size - 1 && !loading) {
@@ -31,14 +36,6 @@ fun MovieScreen(movieViewModel: MovieViewModel) {
             }
 
         }
-//
-//        LazyColumn(
-//            modifier = Modifier.weight(1f),
-//            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-//            verticalArrangement = Arrangement.spacedBy(16.dp)
-//        ) {
-//
-//        }
         if (loading) {
             CircularProgressIndicator(
                 modifier = Modifier

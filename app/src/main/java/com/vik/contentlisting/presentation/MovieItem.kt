@@ -29,16 +29,15 @@ fun MovieItem(movie: Content) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 10.dp)
+            .padding(top = 8.dp)
             .clickable(onClick = { /* Navigate to the movie detail screen */ })
     ) {
         Image(
             painter = painterResource(id = getImage(context, movie.poster_image)),
             contentDescription = "Movie Poster",
             modifier = Modifier
-                .width(140.dp)
-                .height(120.dp)
-                .clip(MaterialTheme.shapes.medium)
+                .width(IntrinsicSize.Min)
+                .height(IntrinsicSize.Min)
         )
         Text(text = movie.name, style = MaterialTheme.typography.subtitle1)
     }
